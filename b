@@ -1,6 +1,4 @@
-bb4 = @
-
-Set-StrictMode -Version 2
+et-StrictMode -Version 2
 
 function func_get_proc_address {
 	Param ($var_module, $var_procedure)		
