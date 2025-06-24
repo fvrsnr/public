@@ -1,3 +1,5 @@
+bb4 = @
+
 Set-StrictMode -Version 2
 
 function func_get_proc_address {
