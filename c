@@ -1,1 +1,1 @@
-Write-Host "Hello from GitHub!
+calc.exe
